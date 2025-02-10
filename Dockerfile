@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --unsafe-perm=true --allow-root
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
@@ -20,20 +20,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Create a non-root user and grant ownership
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-RUN mkdir -p /app && chown -R appuser:appgroup /app
-
-# Switch to the new non-root user
-USER appuser
-
 # Copy the built Angular application from the build stage
 COPY --from=build /app/dist/banking-portal /app/dist/banking-portal
 
 # Copy the server file
 COPY server.js .
 
-# Install Express with correct permissions
+# Install Express
 RUN npm install express --unsafe-perm=true --allow-root
 
 # Expose port 8080
