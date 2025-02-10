@@ -27,7 +27,7 @@ COPY --from=build /app/dist/banking-portal /app/dist/banking-portal
 COPY server.js .
 
 # Install Express
-RUN npm install express --unsafe-perm=true --allow-root
+RUN npm install express
 
 # Expose port 8080
 EXPOSE 8080
